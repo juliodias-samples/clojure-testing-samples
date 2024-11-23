@@ -1,5 +1,7 @@
 (ns testing-samples.core-test
   (:require [clojure.test :refer :all]
+            [matcher-combinators.test]
+            [matcher-combinators.matchers :as m]
             [testing-samples.core :refer :all]))
 
 (deftest simple-sum-test
@@ -19,6 +21,23 @@
   (testing "should return true when asked if the result is a number"
     (is (number? (sum 5 6)))))
 
-(def sum-throwing-exception-test
+(deftest sum-throwing-exception-test
   (testing "should throw ClassCastException when a invalid number is passed"
     (is (thrown? ClassCastException (sum "2" "10")))))
+
+; Assertions below using the matcher combinators
+
+(deftest sum-with-matcher-combinators-test
+  (testing "simple sum using matcher combinators"
+    (is (match? (m/equals 100) (sum 50 50)))))
+
+(deftest nested-structure-test
+  (testing "should match the structure"
+    (is (match? {:person/name "John Doe"
+                 :person/age  100}
+                {:person/name "John Doe"
+                 :person/age  100}))
+    (is (match? {:person {:name "John Doe"
+                          :age  100}}
+                {:person {:name "John Doe"
+                          :age  100}}))))

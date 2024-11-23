@@ -6,6 +6,7 @@
   :plugins [[jonase/eastwood "1.4.3"]]
 
   :dependencies [[org.clojure/clojure "1.11.1"]
+                 [nubank/matcher-combinators "3.9.1"]
                  [prismatic/schema "1.4.1"]]
 
   :main ^:skip-aot testing-samples.core
